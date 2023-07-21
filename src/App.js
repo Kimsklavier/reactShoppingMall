@@ -5,12 +5,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import bg_img from './img/main-bg2.jpg'
 import data from './data.js';
 import { useState } from 'react';
-import {Routes, Route, Link} from 'react-router-dom'
-
+import {Routes, Route, Link, useNavigate, Outlet} from 'react-router-dom'
+import Detail from './pages/Detail.js'
 
 function App() {
   
   let [shoes, setShoes] = useState(data);
+  let navigate = useNavigate();
+
   let [dataCount, setDataCount] = useState(0); 
 
   console.log(shoes);
@@ -23,20 +25,19 @@ function App() {
         <Container>
           <Navbar.Brand href="#home">ZAZANGU</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">자장구 타자</Nav.Link>
-            <Nav.Link href="#features">자장구 사자</Nav.Link>
+            <Nav.Link onClick={() => { navigate('/')}}>홈</Nav.Link>
+            <Nav.Link onClick={() => { navigate(-1)}}>뒤로가기</Nav.Link>
+            <Nav.Link onClick={() => { navigate('/detail')}}>자장구 사자</Nav.Link>
             <Nav.Link href="#pricing">자장구 팔자</Nav.Link>
             <Nav.Link href="#pricing">자장구 청소하자</Nav.Link>
             <Nav.Link href="#pricing">자장구 고치자</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
-      <Link to="/">홈으로 이동</Link>
-      <Link to="/detail">상세 이동</Link>
-      
+            
       <Routes>
         <Route path="/" element={
-        <div>
+        <>
           <div>
             <div className='row'>
               {
@@ -49,15 +50,33 @@ function App() {
 
             </div>
           </div>
-        </div>}> </Route>
-        <Route path="/detail" element={<div>상세페이지</div>}> </Route>
-        <Route path="/about" element={<div>about 페이지</div>}> </Route>
+        </>}>
+
+        </Route>
+        <Route path="/detail/:id" element={<Detail shoes={shoes}/>}> </Route>
+        <Route path="*" element={<div>없는 페이지입니다.</div>}> </Route>
+
+        <Route path="/about" element={<About/>}>
+          <Route path="member" element={<div>멤버</div>} />
+          <Route path="location" element={<div>위치</div>} />
+        </Route>
+
       </Routes>
 
 
     </div>
   );
 }
+
+function About() {
+  return (
+    <>
+      <h4>안녕</h4>
+      <Outlet></Outlet>
+    </>
+  )
+}
+
 
 function Card(props) {
   return (

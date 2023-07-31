@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
+import { Button, Nav, Navbar, Container, Tab } from 'react-bootstrap';
 
 
 
@@ -11,7 +12,8 @@ let YellowBtn = styled.button`
     `
     
 function Detail(props) {
-    
+    let [탭, setTab] = useState(0);
+
     let [count, setCount] = useState(0);
 
     let {id} = useParams();
@@ -30,6 +32,7 @@ function Detail(props) {
         // 렌더링 "이후"에 동작.
         console.log('하세요');
 
+        // 반환함수는 unmount 시점에 실행됨. 
         return () => {
             console.log('안녕');
             // clearTimeout(makeTimer);
@@ -38,6 +41,9 @@ function Detail(props) {
     // 여기서는  [ ]에 있는 변수나 state 가 변할 때만 useEffect 안에 있는 콜백함수의 코드 실행.
     // 즉 로드시(mount) 한 번 실행하고,
     // 그 이후 [ ]에 있는 변수or state가 변할 때(update) 실행.
+    // 최초에는 '하세요' 가 출력되고,
+    // count가 변할 때(unmount)
+
     // [] 에는 변수가 없기 때문에 update 될 때에는 useEffect 안에 있는 코드 실행 X
 
     // 이거 왜쓰냐? 
@@ -66,8 +72,40 @@ function Detail(props) {
                     <button className="btn btn-danger">주문하기</button> 
                 </div>
             </div>
+
+            <Nav variant="tabs"  defaultActiveKey="link0">
+          <Nav.Item>
+            <Nav.Link eventKey="link0" onClick={()=> {
+                setTab(0);
+            }}>버튼0</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+          <Nav.Link eventKey="link1" onClick={()=> {
+                setTab(1);
+            }}>버튼1</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+          <Nav.Link eventKey="link2" onClick={()=> {
+                setTab(2);
+            }}>버튼2</Nav.Link>            
+          </Nav.Item>
+      </Nav>
+      <TabContent 탭={탭}/>
         </div> 
     )
+}
+
+function TabContent(props) { // props 대신 {탭} 만 가져오면 
+if(props.탭 == 0) {  // 여기 조건문에 그냥 탭 == 0 이라고 써도 된다.
+    return <div>내용0</div>
+  } else if (props.탭 == 1) {
+    return <div>내용1</div>
+  } else {
+    return <div>내용2</div>  
+  }
+
+  // 또는 
+  // [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>] [탭] 으로 쓸 수도 있다.
 }
 
 export default Detail;

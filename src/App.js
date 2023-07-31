@@ -7,15 +7,17 @@ import data from './data.js';
 import { useState } from 'react';
 import {Routes, Route, Link, useNavigate, Outlet} from 'react-router-dom'
 import Detail from './pages/Detail.js'
+import axios from 'axios'
 
 function App() {
   
   let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
-
+  let [clickCount, setClickCount] = useState(2);
+  let [dataIs, setDataIs] = useState(true);
   let [dataCount, setDataCount] = useState(0); 
 
-  console.log(shoes);
+  // console.log(shoes);
   return (
 
     <div className="App">
@@ -43,13 +45,32 @@ function App() {
               {
                 shoes.map((a, i)=> {
                   return (
-                    <Card shoes={shoes[i]} />
+                    <Card shoes={shoes[i]} key={i} />
                   )
                 })
               }
-
             </div>
           </div>
+
+          { dataIs ? 
+            <button onClick={()=> {
+              axios.get(`https://codingapple1.github.io/shop/data${clickCount}.json`)
+              .then((data)=> {
+                console.log(data.data);
+                let copy = [...shoes, ...data.data];              
+                setShoes(copy);
+                setClickCount(clickCount+1);
+              })
+              .catch(()=> {
+                alert("상품이 더 없다");
+                setDataIs(false);
+              })
+
+              axios.post('')
+
+            }}>요청 버튼</button>
+            : null
+          }
         </>}>
 
         </Route>
@@ -68,6 +89,8 @@ function App() {
   );
 }
 
+
+
 function About() {
   return (
     <>
@@ -84,6 +107,8 @@ function Card(props) {
     <img src={'https://codingapple1.github.io/shop/shoes'+(props.shoes.id+1)+'.jpg'} width={"80%"}/>
     <h4>{props.shoes.title}</h4>
     <p>{props.shoes.content}</p>
+    <p>{props.shoes.price}</p>
+    
   </div>
   )
 }

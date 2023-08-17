@@ -74,35 +74,43 @@ function Detail(props) {
             </div>
 
             <Nav variant="tabs"  defaultActiveKey="link0">
-          <Nav.Item>
-            <Nav.Link eventKey="link0" onClick={()=> {
-                setTab(0);
-            }}>버튼0</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-          <Nav.Link eventKey="link1" onClick={()=> {
-                setTab(1);
-            }}>버튼1</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-          <Nav.Link eventKey="link2" onClick={()=> {
-                setTab(2);
-            }}>버튼2</Nav.Link>            
-          </Nav.Item>
-      </Nav>
-      <TabContent 탭={탭}/>
-        </div> 
+                <Nav.Item>
+                    <Nav.Link eventKey="link0" onClick={()=> {
+                        setTab(0);
+                    }}>버튼0</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                <Nav.Link eventKey="link1" onClick={()=> {
+                        setTab(1);
+                    }}>버튼1</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                <Nav.Link eventKey="link2" onClick={()=> {
+                        setTab(2);
+                    }}>버튼2</Nav.Link>            
+                </Nav.Item>
+            </Nav>
+            <TabContent 탭={탭}/>
+        </div>
     )
 }
-
+// 컴포넌트 전환 애니메이션 (fade 등~)
 function TabContent(props) { // props 대신 {탭} 만 가져오면 
-if(props.탭 == 0) {  // 여기 조건문에 그냥 탭 == 0 이라고 써도 된다.
-    return <div>내용0</div>
-  } else if (props.탭 == 1) {
-    return <div>내용1</div>
-  } else {
-    return <div>내용2</div>  
-  }
+    //탭 state가 변할 때 className에 end 를 "땠다가" 다시 부착
+    let [fade, setFade] = useState('');
+    useEffect(()=> {
+        let a = setTimeout(()=>{ 
+            setFade('end')
+        }, 100)
+        
+        return () => {
+            clearTimeout(a);
+            setFade('');
+        }
+    }, [탭])
+    return (<div className={'start '+ fade}>
+        { [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][props.탭] }
+    </div>)
 
   // 또는 
   // [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>] [탭] 으로 쓸 수도 있다.

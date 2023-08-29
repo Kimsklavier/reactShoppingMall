@@ -12,7 +12,7 @@ let YellowBtn = styled.button`
     `
     
 function Detail(props) {
-    let [탭, setTab] = useState(0);
+    let [newTab, setTab] = useState(0);
 
     let [count, setCount] = useState(0);
 
@@ -75,45 +75,36 @@ function Detail(props) {
 
             <Nav variant="tabs"  defaultActiveKey="link0">
                 <Nav.Item>
-                    <Nav.Link eventKey="link0" onClick={()=> {
-                        setTab(0);
-                    }}>버튼0</Nav.Link>
+                    <Nav.Link onClick={()=>{setTab(0)} } eventKey="link0">버튼0</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                <Nav.Link eventKey="link1" onClick={()=> {
-                        setTab(1);
-                    }}>버튼1</Nav.Link>
+                    <Nav.Link onClick={()=>{setTab(1)} }eventKey="link1">버튼1</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                <Nav.Link eventKey="link2" onClick={()=> {
-                        setTab(2);
-                    }}>버튼2</Nav.Link>            
+                    <Nav.Link onClick={()=>{setTab(2)} }eventKey="link2">버튼2</Nav.Link>            
                 </Nav.Item>
             </Nav>
-            <TabContent 탭={탭}/>
+            <TabContent newTab={newTab}></TabContent>
         </div>
     )
 }
-// 컴포넌트 전환 애니메이션 (fade 등~)
-function TabContent(props) { // props 대신 {탭} 만 가져오면 
-    //탭 state가 변할 때 className에 end 를 "땠다가" 다시 부착
-    let [fade, setFade] = useState('');
-    useEffect(()=> {
-        let a = setTimeout(()=>{ 
-            setFade('end')
-        }, 100)
-        
-        return () => {
-            clearTimeout(a);
-            setFade('');
-        }
-    }, [탭])
-    return (<div className={'start '+ fade}>
-        { [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][props.탭] }
-    </div>)
 
-  // 또는 
-  // [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>] [탭] 으로 쓸 수도 있다.
+
+ // 컴포넌트 전환 애니메이션 (fade 등~)
+function TabContent(props) { // props 대신 {탭} 만 가져오면 
+/*    if (props.newTab == 0) {
+        return <div>내용0</div>
+    }
+    if(props.newTab == 1) {
+        return <div>내용1</div>
+    }
+    if(props.newTab == 2) {
+        return <div>내용2</div>
+    }
+*/
+    return [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][props.newTab]
+
 }
+
 
 export default Detail;

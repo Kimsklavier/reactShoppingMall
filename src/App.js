@@ -39,40 +39,41 @@ function App() {
             
       <Routes>
         <Route path="/" element={
-        <>
-          <div>
-            <div className='row'>
-              {
-                shoes.map((a, i)=> {
-                  return (
-                    <Card shoes={shoes[i]} key={i} />
-                  )
-                })
-              }
+          <>
+            <div>
+              <div className='row'>
+                {
+                  shoes.map((a, i)=> {
+                    return (
+                      <Card shoes={shoes[i]} key={i} />
+                    )
+                  })
+                }
+              </div>
             </div>
-          </div>
 
-          { dataIs ? 
-            <button onClick={()=> {
-              axios.get(`https://codingapple1.github.io/shop/data${clickCount}.json`)
-              .then((data)=> {
-                console.log(data.data);
-                let copy = [...shoes, ...data.data];              
-                setShoes(copy);
-                setClickCount(clickCount+1);
-              })
-              .catch(()=> {
-                alert("상품이 더 없다");
-                setDataIs(false);
-              })
+            { dataIs ? 
+              <button onClick={()=> {
+                axios.get(`https://codingapple1.github.io/shop/data${clickCount}.json`)
+                .then((data)=> {
+                  console.log(data.data);
+                  let copy = [...shoes, ...data.data];              
+                  setShoes(copy);
+                  setClickCount(clickCount+1);
+                })
+                .catch(()=> {
+                  alert("상품이 더 없다");
+                  setDataIs(false);
+                })
 
-              axios.post('')
+                axios.post('')
 
-            }}>요청 버튼</button>
-            : null
-          }
-        </>}>
-
+              }}>요청 버튼</button>
+              : null
+            }
+          </>}
+        >
+      
         </Route>
         <Route path="/detail/:id" element={<Detail shoes={shoes}/>}> </Route>
         <Route path="*" element={<div>없는 페이지입니다.</div>}> </Route>

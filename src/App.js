@@ -62,7 +62,7 @@ function App() {
                 setClickCount(clickCount+1);
               })
               .catch(()=> {
-                alert("상품이 더 없다");
+                alert("상품이 더 없다라고");
                 setDataIs(false);
               })
 

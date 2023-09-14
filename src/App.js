@@ -1,119 +1,83 @@
-
-import { Button, Nav, Navbar, Container } from 'react-bootstrap';
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import bg_img from './img/main-bg2.jpg'
-import data from './data.js';
+import './App.css'
 import { useState } from 'react';
-import {Routes, Route, Link, useNavigate, Outlet} from 'react-router-dom'
-import Detail from './pages/Detail.js'
-import axios from 'axios'
-
+import data from './data.js';
 function App() {
-  
-  let [shoes, setShoes] = useState(data);
-  let navigate = useNavigate();
-  let [clickCount, setClickCount] = useState(2);
-  let [dataIs, setDataIs] = useState(true);
-  let [dataCount, setDataCount] = useState(0); 
 
-  // console.log(shoes);
+  let [titleArr, setTitleArr] = useState(['사과', '망고스틴', '청포도']);
+  let [granpaNameArr, setGranpaNameArr] = useState(['성민', '수현', '지훈']);
+  let [goodClickCnt, setGoodClickCnt] = useState([0,0,0]);
+  let [modal, setModal] = useState(false);
+  let [title, setTitle] = useState(0);
+
   return (
-
     <div className="App">
+      <div className="black-nav">
+        <div>과일 파는 사람들</div>
+      </div>
+        <Modal modal = {modal} setModal={setModal} setTitle={setTitle} titleArr={titleArr} setGoodClickCnt={setGoodClickCnt} granpaNameArr={granpaNameArr} goodClickCnt={goodClickCnt}/>
+        
 
-      <div className='main-bg' style={{backgroundImage:'url('+bg_img+')'}}></div>
-      <Navbar bg="dark" data-bs-theme="dark">
-        <Container>
-          <Navbar.Brand href="#home">ZAZANGU</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link onClick={() => { navigate('/')}}>홈</Nav.Link>
-            <Nav.Link onClick={() => { navigate(-1)}}>뒤로가기</Nav.Link>
-            <Nav.Link onClick={() => { navigate('/detail')}}>자장구 사자</Nav.Link>
-            <Nav.Link href="#pricing">자장구 팔자</Nav.Link>
-            <Nav.Link href="#pricing">자장구 청소하자</Nav.Link>
-            <Nav.Link href="#pricing">자장구 고치자</Nav.Link>
-          </Nav>
-        </Container>
-      </Navbar>
-            
-      <Routes>
-        <Route path="/" element={
-          <>
-            <div>
-              <div className='row'>
-                {
-                  shoes.map((a, i)=> {
-                    return (
-                      <Card shoes={shoes[i]} key={i} />
-                    )
-                  })
-                }
-              </div>
-            </div>
-
-            { dataIs ? 
-              <button onClick={()=> {
-                axios.get(`https://codingapple1.github.io/shop/data${clickCount}.json`)
-                .then((data)=> {
-                  console.log(data.data);
-                  let copy = [...shoes, ...data.data];              
-                  setShoes(copy);
-                  setClickCount(clickCount+1);
-                })
-                .catch(()=> {
-                  alert("상품이 더 없다 라고 말해");
-                  setDataIs(false);
-                })
-
-                axios.post('')
-
-              }}>요청 버튼</button>
-              : null
-            }
-          </>}
-        >
-      
-        </Route>
-        <Route path="/detail/:id" element={<Detail shoes={shoes}/>}> </Route>
-        <Route path="*" element={<div>없는 페이지입니다.</div>}> </Route>
-
-        <Route path="/about" element={<About/>}>
-          <Route path="member" element={<div>멤버</div>} />
-          <Route path="location" element={<div>위치</div>} />
-        </Route>
-
-      </Routes>
-
-
+      <div className="listContainer">
+        <div>
+          <button onClick={() => {
+            let copy = [...titleArr];
+            copy[0] = '배다골';
+            setTitleArr(copy);
+            }}>배다골 버튼</button>
+        </div>
+        <div>
+          <button onClick={() => {
+            let copy = [...titleArr];
+            copy.sort();
+            setTitleArr(copy);
+            }}>정렬 버튼</button>
+        </div>
+        <div>
+          <button onClick={() => {
+            setModal(!modal);
+            }}>글제목</button>
+        </div>
+      </div>
+      {
+        modal == true ? <Modal3 titleArr={titleArr} title={title} granpaNameArr={granpaNameArr}/>: null
+      }
     </div>
   );
 }
 
-
-
-function About() {
+function Modal(props) {
   return (
-    <>
-      <h4>안녕</h4>
-      <Outlet></Outlet>
-    </>
-  )
-}
-
-
-function Card(props) {
-  return (
-    <div className='col-md-4 my-2'>
-    <img src={'https://codingapple1.github.io/shop/shoes'+(props.shoes.id+1)+'.jpg'} width={"80%"}/>
-    <h4>{props.shoes.title}</h4>
-    <p>{props.shoes.content}</p>
-    <p>{props.shoes.price}</p>
-    
+  <div className="listContainer">
+        {
+          props.titleArr.map((a,i)=> {
+            return (
+            <div className="list">
+              <h4 onClick={()=> {props.setModal(!props.modal); props.setTitle(i)}}>{a} 농장</h4>
+              <p>{props.granpaNameArr[i]} 할매</p>
+              <span className='clickBtn' onClick={()=> {
+                let goodClickCntCopy = [...props.goodClickCnt];
+                goodClickCntCopy[i] += 1;
+                props.setGoodClickCnt(goodClickCntCopy);
+              }}>👍</span> {props.goodClickCnt[i]}
+            </div>
+            )
+          })
+        }
   </div>
   )
 }
 
+function Modal3(props) {
+  return (
+    <div className="modal">
+      <h4>{props.titleArr[props.title] } </h4>
+      <p>날짜</p>
+      <p>상세내용</p>
+    </div>
+  )
+}
 
+function goodClickbtn(props) {
+}
 
 export default App;

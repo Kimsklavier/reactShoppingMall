@@ -1,5 +1,5 @@
 .black-nav {
-  text-align: center;
+  text-align: left;
 }
 
 .black-nav {
@@ -15,8 +15,33 @@
 .listContainer {
   display : flex;
   justify-content: space-evenly;
+  flex-wrap:wrap;
 }
 
 .clickBtn {
   cursor: pointer;
+}
+
+.list {
+  width:200px;
+}
+
+.detailmodal {
+  text-align:center;
+}
+
+.modalContainer {
+  margin-top : 30px;
+  display : flex;
+  justify-content: space-evenly;
+  flex-wrap:wrap;
+}
+
+#img_div {
+  width:200px;
+  height:200px;
+  background-size: cover; 
+  background-position: center center;
+  background-repeat: no-repeat;
+  border:solid 1px gray;
 }

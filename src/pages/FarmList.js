@@ -11,7 +11,7 @@ function FarmList(props) {
               // 농장 정보 리스트
               <div className="list">
                 <div id='img_div' style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/`+i +`.jpg)` }}></div>
-                <h4  className='makeCursor' onClick={()=> {
+                <h4 className='makeCursor' onClick={()=> {
                     props.setFarmDetailModal(true);
                     props.setTitle(i);
                   }

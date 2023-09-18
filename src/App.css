@@ -35,6 +35,8 @@
   display : flex;
   justify-content: space-evenly;
   flex-wrap:wrap;
+  margin-bottom:20px;
+
 }
 
 #img_div {
@@ -44,4 +46,16 @@
   background-position: center center;
   background-repeat: no-repeat;
   border:solid 1px gray;
+}
+
+.makeCursor {
+  cursor: pointer;
+}
+
+.deleteBtn {
+  margin-left:10px;
+}
+
+.detailDiv {
+  margin-top:20px;
 }

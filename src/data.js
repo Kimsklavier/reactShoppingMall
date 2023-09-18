@@ -2,23 +2,26 @@ let data =
 [
   {
     id : 0,
-    title : "White and Black",
-    content : "Born in France",
-    price : 120000
+    fruits : "사과",
+    farmerName : "김춘배",
+    call : '010-3940-5581',
+    goodClickCnt : 0
   },
 
   {
     id : 1,
-    title : "Red Knit",
-    content : "Born in Seoul",
-    price : 110000
+    fruits : "망고스틴",
+    farmerName : "임학진",
+    call : '010-3941-5581',
+    goodClickCnt : 0
   },
 
   {
     id : 2,
-    title : "Grey Yordan",
-    content : "Born in the States",
-    price : 130000
+    fruits : "청포도",
+    farmerName : "최대철",
+    call : '010-3944-5581',
+    goodClickCnt : 0
   }
 ] 
 

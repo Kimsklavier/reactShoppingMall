@@ -1,9 +1,9 @@
 import './App.css'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import data from './data.js';
 import { Button, Navbar, Container, Nav } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Link, useNavigate, Outlet, useParams } from 'react-router-dom'
 import Detail from './pages/Detail.js'
 import FarmList from './pages/FarmList.js';
 
@@ -18,13 +18,13 @@ function App() {
   return (
     <div className="App">
       <div className="black-nav">
-        <div>한국 Misumi</div>
+        <div>과일 파는 남자들</div>
       </div>
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand className="ml-auto" href="#home">한국 Misumi</Navbar.Brand>
+          <Navbar.Brand className="ml-auto" href="/">과일 파는 남자들</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="/home">홈</Nav.Link>
+            <Nav.Link href="/">홈</Nav.Link>
             <Nav.Link href="/detail">농장 찾기</Nav.Link>
             <Nav.Link href="#pricing">지역 특산물</Nav.Link>
             <Nav.Link href="#pricing">고객센터</Nav.Link>
@@ -34,7 +34,7 @@ function App() {
       </Navbar>
       
       <Routes>
-        <Route path="/home" element={
+        <Route path="/" element={
         <div>
           <div className="modalContainer">
             <Button variant="warning" onClick={() => {
@@ -58,14 +58,13 @@ function App() {
             }
           </div>
         </div> } />
-        <Route path="/detail" element={ <Detail/> } />
+        <Route path="/detail/:id" element={ <Detail farmData={farmData} title={title} /> } />
+        <Route path="*" element={ <div>없는페이지임</div> } />
       </Routes>
 
     </div>
   );
 }
-
-
 
 // 농장 세부 사항 모달 컴포넌트
 function FarmDetailModal(props) {
@@ -107,7 +106,7 @@ function FarmInputModal(props) {
       <input type='text' placeholder='과일명' onChange={ (e)=>{ 
         fruits = e.target.value;
       }}/>
-      <input type='text' placeholder='할매/할매 이름' onChange={(e)=>{
+      <input type='text' placeholder='할매/할배 이름' onChange={(e)=>{
         farmerName = e.target.value;
       }}/>
       <input type='text' placeholder='전화번호' onChange={(e)=>{
